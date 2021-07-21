@@ -3,3 +3,7 @@ Small projects for practice w/ testing.
 1. Sending emails using python
 2. Alarm clock
 3. Key logger
+
+Todo
+- figure out why my version is not working w/ tests
+- how do tests work w/ classes?

@@ -2,3 +2,6 @@ https://realpython.com/python-testing/
 https://www.guru99.com/pytest-tutorial.html#1
 https://www.slideshare.net/tamanm/unit-testing-tdd-concepts-with-best-practice-guidelines
 https://www.youtube.com/watch?v=bbp_849-RZ4
+
+
+https://pybit.es/articles/when-classes/
