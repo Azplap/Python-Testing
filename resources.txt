@@ -5,3 +5,6 @@ https://www.youtube.com/watch?v=bbp_849-RZ4
 
 
 https://pybit.es/articles/when-classes/
+
+
+https://www.thepythoncode.com/article/write-a-keylogger-python

